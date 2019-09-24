@@ -12,7 +12,7 @@ import Menu from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 
 function logOut() {
-  localStorage.removeItem("isLoggedin");
+  localStorage.setItem("isLoggedin", false);
   window.location.reload();
 }
 

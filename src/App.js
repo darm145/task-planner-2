@@ -5,6 +5,7 @@ import { TodoList } from './TodoList.js'
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
 import { Login } from "./component/Login";
 import { TodoApp } from "./TodoApp";
+import { SignUp } from "./component/SignUp";
 
 
 
@@ -35,11 +36,18 @@ class App extends React.Component {
         }
         const loged = localStorage.getItem('isLoggedin');
         return (
-            <Router>
-                <div className="App">
-                    {this.LoggedIn(loged)}
-                </div>
-            </Router>
+            <div>
+                 <Router>
+                     <div>
+                     
+                    <Route component={SignUp} path='/signup'></Route>
+                    <Route component={Login} path='/login'></Route>
+                    <Route component={TodoApp} path='/app'></Route>
+                    </div>
+                </Router>
+                
+            </div>
+            
         );
     }
 

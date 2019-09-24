@@ -12,7 +12,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Card from '@material-ui/core/Card';
 import './Login.css'
 import logo from './images/Logo.png';
-
+import { NavLink} from 'react-router-dom';
+import {SignUp} from './SignUp';
 
 
 export class Login extends React.Component {
@@ -28,9 +29,17 @@ export class Login extends React.Component {
 
     }
 
+    redirect(){
+        window.location.replace("/signup");
+    }
+
     render() {
+        if(JSON.parse(localStorage.getItem("isLoggedIn"))){
+            window.location.replace("/app");
+        }
         return (
             <React.Fragment>
+               
                 <CssBaseline />
                 <main className="layout">
                     <Card className="paper">
@@ -38,12 +47,12 @@ export class Login extends React.Component {
                             component="img"
                             alt="Logo"
                             align="center"
-                            class="responsive"
+                            
                             image={logo}
-                        title="Logo"
-                    />
+                            title="Logo"
+                        />
 
-                        <Typography className="textolog" variant="headline">Sign in</Typography>
+                        <Typography className="textolog" variant="h4">Sign in</Typography>
                         <form className="form">
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="email">UserName</InputLabel>
@@ -68,6 +77,18 @@ export class Login extends React.Component {
                             >
                                 Sign in
                             </Button>
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                onClick={this.redirect}
+
+                                
+                            >
+                                Register
+                            </Button>
+
+
                         </form>
                     </Card>
                 </main>

@@ -24,6 +24,11 @@ export class TodoApp extends React.Component {
 
   render() {
     
+    if(!JSON.parse(localStorage.getItem("isLoggedIn"))){
+      console.log("entra=")
+      window.location.replace("/login");
+  }
+  
     
     const estados = [
       { status: "Completed" }, { status: "In Progess" }, { status: "Ready" }
