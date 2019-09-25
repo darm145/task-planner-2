@@ -12,8 +12,11 @@ import Menu from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 
 function logOut() {
-  localStorage.setItem("isLoggedin", false);
-  window.location.reload();
+  localStorage.setItem("isLoggedIn", false);
+  window.location.replace("/login");
+}
+function profile(){
+    window.location.replace("/profile");
 }
 
 export default function TemporaryDrawer() {
@@ -41,12 +44,16 @@ export default function TemporaryDrawer() {
           <ListItemIcon><Face></Face></ListItemIcon>
           <ListItemText primary={localStorage.getItem('mailLogged')} />
         </ListItem>
-
+        <Button variant="contained" color="secondary" onClick={profile}>
+          perfil
+      </Button>
       </List>
+    
       <Divider />
       <Button variant="contained" color="secondary" onClick={logOut}>
           Salir
       </Button>
+      
       
     </div>
   );

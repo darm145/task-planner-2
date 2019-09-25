@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
 import { Login } from "./component/Login";
 import { TodoApp } from "./TodoApp";
 import  SignUp  from "./component/SignUp";
+import UserProfile from "./UserProfile";
 
 
 
@@ -34,7 +35,7 @@ class App extends React.Component {
         if (localStorage.getItem('isLoggedIn') == undefined) {
             localStorage.setItem('isLoggedIn', false);
         }
-        const loged = localStorage.getItem('isLoggedin');
+        const loged = localStorage.getItem('isLoggedIn');
         return (
             <div>
                  <Router>
@@ -44,6 +45,7 @@ class App extends React.Component {
                     <Route component={Login} path='/login'></Route>
                     <Route exact component={Login} path='/'></Route>
                     <Route component={TodoApp} path='/app'></Route>
+                    <Route component={UserProfile} path='/profile'></Route>
                     </div>
                 </Router>
                 

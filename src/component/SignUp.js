@@ -58,6 +58,7 @@ function checkpasswords(){
         localStorage.setItem("isLoggedIn", true);
         localStorage.setItem("mailLogged", document.getElementById("email").value);
         localStorage.setItem("passwordLogged", document.getElementById("password").value);
+        localStorage.setItem("NameLogged", document.getElementById("firstName").value);
         window.location.replace("/app");
       }
 }

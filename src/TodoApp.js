@@ -10,6 +10,11 @@ import "./TodoApp.css"
 import Drawer from "./Drawer.js"
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
+
+const styleCenter = {
+  textAlign: "center"
+}
+
 export class TodoApp extends React.Component {
 
   constructor(props) {
@@ -18,62 +23,66 @@ export class TodoApp extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDate = this.handleDate.bind(this);
-    this.handleStatus = this.handleStatus.bind(this); 
+    this.handleStatus = this.handleStatus.bind(this);
   }
+
 
 
   render() {
-    
-    if(!JSON.parse(localStorage.getItem("isLoggedIn"))){
+
+    if (!JSON.parse(localStorage.getItem("isLoggedIn"))) {
       console.log("entra=")
       window.location.replace("/login");
-  }
-  
-    
+    }
+
+
     const estados = [
       { status: "Completed" }, { status: "In Progess" }, { status: "Ready" }
     ]
     return (
       <div>
         <Drawer></Drawer>
-        <h2>Bienvenido {localStorage.getItem("mailLogged")}</h2>
-        <h3>Manejador de tareas</h3>
+        <h2 style={styleCenter}>Bienvenido {localStorage.getItem("mailLogged")}</h2>
+        <h3 style={styleCenter}>Manejador de tareas</h3>
         <div>
           <Card className="insertCard">
             <form onSubmit={this.handleSubmit}>
-              <TextField
-                id="text-todo"
-                label="Actividad"
-                value={this.state.text}
-                onChange={this.handleChange}
-                margin="normal"
-              />
-              <p></p>
-             
-              <TextField
-                id="priority-todo"
-                select
-                label="Seleccione"
-                value={this.state.status}
-                onChange={this.handleStatus}
-                helperText="Por favor seleccione el estado"
-                margin="normal"
-              >
-                {estados.map(option => (
-                  <MenuItem key={option.status} value={option.status}>
-                    {option.status}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <p></p>
-              <DatePicker
-                id="date-todo"
-                selected={this.state.dueDate}
-                onChange={this.handleDate} />
-              <p></p>
-              <Button variant="contained" color="primary" type="submit">
-                Agregar #{this.state.items.length + 1}
-              </Button>
+              <center>
+                <TextField
+                  id="text-todo"
+                  label="Actividad"
+                  value={this.state.text}
+                  onChange={this.handleChange}
+                  margin="normal"
+
+                />
+                <p></p>
+
+                <TextField
+                  id="priority-todo"
+                  select
+                  label="Seleccione"
+                  value={this.state.status}
+                  onChange={this.handleStatus}
+                  helperText="Por favor seleccione el estado"
+                  margin="normal"
+                >
+                  {estados.map(option => (
+                    <MenuItem key={option.status} value={option.status}>
+                      {option.status}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <p></p>
+                <DatePicker
+                  id="date-todo"
+                  selected={this.state.dueDate}
+                  onChange={this.handleDate} />
+                <p></p>
+                <Button variant="contained" color="primary" type="submit">
+                  Agregar #{this.state.items.length + 1}
+                </Button>
+              </center>
             </form>
           </Card>
 
@@ -84,11 +93,11 @@ export class TodoApp extends React.Component {
 
 
         {/** <div id="Login"><Login></Login></div> */}
-       
+
       </div>
     );
   }
-  
+
 
   handleChange(e) {
 
@@ -96,7 +105,7 @@ export class TodoApp extends React.Component {
     //this.setState({ status: document.getElementById("priority-todo").value });
 
   }
-  handleStatus(e){
+  handleStatus(e) {
     console.log(e.target.value);
     this.setState({ status: e.target.value });
   }
