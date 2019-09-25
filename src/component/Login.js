@@ -22,7 +22,7 @@ export class Login extends React.Component {
         const password = document.getElementById("password").value
 
         if (email != "" && password != "") {
-            localStorage.setItem("isLoggedin", true);
+            localStorage.setItem("isLoggedIn", true);
             localStorage.setItem("mailLogged", email);
             localStorage.setItem("passwordLogged", password);
         }
