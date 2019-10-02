@@ -26,12 +26,31 @@ export class TodoApp extends React.Component {
     this.handleStatus = this.handleStatus.bind(this);
   }
 
+  componentDidMount() {
+    fetch('http://localhost:8080/Task')
+        .then(response => response.json())
+        .then(data => {
+            let tasksList = [];
+            data.forEach(function (task) {
+                tasksList.push({
+                   id:task.id,
+                   text:task.activity,
+                   status:task.state,
+                   dueDate:task.date,
+                   owner:task.owner
+                })
 
+            });
+            console.log(data);
+            console.log("aaaaaaaaaaaaaaaaaa");
+            this.setState({items: tasksList});
+        });
+}
 
   render() {
 
     if (!JSON.parse(localStorage.getItem("isLoggedIn"))) {
-      console.log("entra=")
+      
       window.location.replace("/login");
     }
 
@@ -122,7 +141,8 @@ export class TodoApp extends React.Component {
     const newItem = {
       text: this.state.text,
       status: this.state.status,
-      dueDate: this.state.dueDate
+      dueDate: this.state.dueDate,
+
     };
     console.log(newItem);
     this.setState(prevState => ({

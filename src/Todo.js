@@ -19,7 +19,7 @@ export class Todo extends React.Component {
                         {this.props.res.status} - {this.props.res.dueDate.toString()}
                     </Typography >
                     <Typography  color="textPrimary" gutterBottom>
-                        Autor: {localStorage.getItem("mailLogged")}
+                        Autor: {this.props.res.owner.email}
                     </Typography >
                 </CardContent>
             </Card>
