@@ -1,6 +1,6 @@
 import React from 'react';
 import { TodoList } from './TodoList.js'
-import { Login } from './component/Login'
+
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import DatePicker from 'react-datepicker';
@@ -9,7 +9,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./TodoApp.css"
 import Drawer from "./Drawer.js"
 import MenuItem from '@material-ui/core/MenuItem';
-import { makeStyles } from '@material-ui/core/styles';
+
+import uuid from 'react-uuid';
 
 const styleCenter = {
   textAlign: "center"
@@ -101,6 +102,9 @@ export class TodoApp extends React.Component {
                 <Button variant="contained" color="primary" type="submit">
                   Agregar #{this.state.items.length + 1}
                 </Button>
+                <Button variant="contained" color="primary" type="button">
+                  Filtrar
+                </Button>
               </center>
             </form>
           </Card>
@@ -139,16 +143,21 @@ export class TodoApp extends React.Component {
       return;
     }
     const newItem = {
-      text: this.state.text,
-      status: this.state.status,
-      dueDate: this.state.dueDate,
+      id: uuid(),
+      activity: this.state.text,
+      state: this.state.status,
+      date: this.state.dueDate,
+      owner:{email:localStorage.getItem("mailLogged")}
 
     };
     console.log(newItem);
-    this.setState(prevState => ({
-      items: prevState.items.concat(newItem),
-      text: ''
-    }));
+   fetch('http://localhost:8080/Task',{
+     method:'POST',
+     body: JSON.stringify(newItem),
+     headers:{
+      'Content-Type': 'application/json'
+     }
+   }) 
   }
 }
 

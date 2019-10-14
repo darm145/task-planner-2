@@ -1,9 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
+
 import Typography from '@material-ui/core/Typography';
 import CardMedia from '@material-ui/core/CardMedia';
 import Card from '@material-ui/core/Card';
@@ -40,13 +37,13 @@ export class UserProfile extends React.Component {
       }
     actualizar() {
         console.log(this.state);
-        if(this.state.name!=''){
+        if(this.state.name!==''){
             localStorage.setItem("NameLogged", this.state.name);
         }
-        if(this.state.mail!=''){
+        if(this.state.mail!==''){
             localStorage.setItem("mailLogged", this.state.mail);
         }
-        if(this.state.pw!='' && this.state.pw2!=this.state.pw){
+        if(this.state.pw!=='' && this.state.pw2!==this.state.pw){
             alert("las contraseñas no coinciden");
             return;
         }

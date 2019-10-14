@@ -14,14 +14,14 @@ import logo from './images/Logo.png';
 export class Login extends React.Component {
     checkdata() {
         const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value
+        const password = document.getElementById("password").value;
 
-        if (email != "" && password != "") {
+        if (email !== "" && password !== "") {
             localStorage.setItem("isLoggedIn", true);
             localStorage.setItem("mailLogged", email);
             localStorage.setItem("passwordLogged", password);
         }
-
+        
     }
 
     redirect(){
