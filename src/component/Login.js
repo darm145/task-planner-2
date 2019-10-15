@@ -9,6 +9,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Card from '@material-ui/core/Card';
 import './Login.css'
 import logo from './images/Logo.png';
+import axios from 'axios';
 
 
 export class Login extends React.Component {
@@ -23,6 +24,21 @@ export class Login extends React.Component {
         }
         
     }
+    componentDidMount(){
+        axios.post('http://localhost:8080/login', { 
+          email:"dd@hotmail.com",
+          name: 'dd',
+          password: 'password'
+      })
+          .then(function (response) {
+              console.log(response.data);
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
+  
+  
+      }
 
     redirect(){
         window.location.replace("/signup");

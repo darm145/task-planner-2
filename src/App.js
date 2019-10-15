@@ -7,6 +7,7 @@ import { Login } from "./component/Login";
 import { TodoApp } from "./TodoApp";
 import  SignUp  from "./component/SignUp";
 import UserProfile from "./UserProfile";
+import {Filter} from "./Filter";
 
 
 
@@ -44,6 +45,7 @@ class App extends React.Component {
                     <Route exact component={Login} path='/'></Route>
                     <Route component={TodoApp} path='/app'></Route>
                     <Route component={UserProfile} path='/profile'></Route>
+                    <Route component={Filter} path='/filtro'></Route>
                     </div>
                 </Router>
                 

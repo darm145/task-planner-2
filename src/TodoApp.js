@@ -9,7 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./TodoApp.css"
 import Drawer from "./Drawer.js"
 import MenuItem from '@material-ui/core/MenuItem';
-
+import {Filter} from "./Filter";
 import uuid from 'react-uuid';
 
 const styleCenter = {
@@ -26,8 +26,7 @@ export class TodoApp extends React.Component {
     this.handleDate = this.handleDate.bind(this);
     this.handleStatus = this.handleStatus.bind(this);
   }
-
-  componentDidMount() {
+  updateList(){
     fetch('http://localhost:8080/Task')
         .then(response => response.json())
         .then(data => {
@@ -43,9 +42,12 @@ export class TodoApp extends React.Component {
 
             });
             console.log(data);
-            console.log("aaaaaaaaaaaaaaaaaa");
+            
             this.setState({items: tasksList});
         });
+  }
+  componentDidMount() {
+    this.updateList();
 }
 
   render() {
@@ -57,7 +59,7 @@ export class TodoApp extends React.Component {
 
 
     const estados = [
-      { status: "Completed" }, { status: "In Progess" }, { status: "Ready" }
+      { status: "Completed" }, { status: "In Progress" }, { status: "Ready" }
     ]
     return (
       <div>
@@ -102,9 +104,7 @@ export class TodoApp extends React.Component {
                 <Button variant="contained" color="primary" type="submit">
                   Agregar #{this.state.items.length + 1}
                 </Button>
-                <Button variant="contained" color="primary" type="button">
-                  Filtrar
-                </Button>
+                <Filter/>
               </center>
             </form>
           </Card>
@@ -158,6 +158,7 @@ export class TodoApp extends React.Component {
       'Content-Type': 'application/json'
      }
    }) 
+   this.updateList();
   }
 }
 
