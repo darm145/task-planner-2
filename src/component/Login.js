@@ -18,28 +18,28 @@ export class Login extends React.Component {
         const password = document.getElementById("password").value;
 
         if (email !== "" && password !== "") {
-            localStorage.setItem("isLoggedIn", true);
-            localStorage.setItem("mailLogged", email);
+            
             localStorage.setItem("passwordLogged", password);
         }
-        
-    }
-    componentDidMount(){
         axios.post('http://localhost:8080/login', { 
-          email:"dd@hotmail.com",
-          name: 'dd',
-          password: 'password'
+          email:email,
+          name: '',
+          password: password
       })
           .then(function (response) {
               console.log(response.data);
+              localStorage.setItem("token",response.data);
+              localStorage.setItem("isLoggedIn", true);
+            localStorage.setItem("mailLogged", email);
+            window.location.replace("/app");
           })
           .catch(function (error) {
-              console.log(error);
+              alert("datos erroneos");
           });
   
-  
-      }
-
+        
+    }
+   
     redirect(){
         window.location.replace("/signup");
     }
@@ -66,7 +66,7 @@ export class Login extends React.Component {
                         <Typography className="textolog" variant="h4">Sign in</Typography>
                         <form className="form">
                             <FormControl margin="normal" required fullWidth>
-                                <InputLabel htmlFor="email">UserName</InputLabel>
+                                <InputLabel htmlFor="email">Email</InputLabel>
                                 <Input id="email" name="email" autoComplete="email" autoFocus />
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
@@ -79,7 +79,7 @@ export class Login extends React.Component {
                                 />
                             </FormControl>
                             <Button
-                                type="submit"
+                                type="button"
                                 fullWidth
                                 variant="contained"
                                 color="primary"

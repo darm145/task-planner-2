@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-
+import axios from 'axios';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -40,17 +40,41 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 function checkpasswords(){
+  
       if(document.getElementById("cpassword").value !== document.getElementById("password").value){
           alert("las contraseñas no coinciden, por favor vuelva a ingresarlas");
       }
-      else{
-        localStorage.setItem("isLoggedIn", true);
-        localStorage.setItem("mailLogged", document.getElementById("email").value);
-        localStorage.setItem("passwordLogged", document.getElementById("password").value);
-        localStorage.setItem("NameLogged", document.getElementById("firstName").value);
-        window.location.replace("/app");
+      else if(document.getElementById("cpassword").value.length<8){
+        alert("la contraseña debe tener al menos 8 caracteres");
       }
-}
+      else if(document.getElementById("email").value==='' || document.getElementById("firstName").value===''){
+        alert("no deje espacios vacios");
+      }
+      else{
+        const user ={ name:document.getElementById("firstName").value,
+                      email:document.getElementById("email").value,
+                      password:document.getElementById("password").value}
+        axios.post("http://localhost:8080/User", user
+        ).then(function(response){
+          console.log(response.data);
+          axios.post('http://localhost:8080/login', { 
+          email:response.data.email,
+          name: response.data.name,
+          password: response.data.password
+      })
+          .then(function (response2) {
+              console.log(response2.data);
+              localStorage.setItem("token",response2.data);
+              localStorage.setItem("isLoggedIn", true);
+            localStorage.setItem("mailLogged", response.data.email);
+            window.location.replace("/app");
+          })
+          .catch(function (error) {
+              alert("datos erroneos");
+          });
+        });
+        
+} }
 
 export default function SignUp() {
   const classes = useStyles();
@@ -88,7 +112,7 @@ export default function SignUp() {
                 id="email"
                 label="Email Address"
                 name="email"
-                autoComplete="email"
+                
               />
             </Grid>
             <Grid item xs={12}>
@@ -100,7 +124,7 @@ export default function SignUp() {
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
+                
               />
             </Grid>
             <Grid item xs={12}>
@@ -112,7 +136,7 @@ export default function SignUp() {
                 label="Confirm Password"
                 type="password"
                 id="cpassword"
-                autoComplete="current-password"
+               
               />
             </Grid>
             

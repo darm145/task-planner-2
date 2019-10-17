@@ -11,6 +11,7 @@ import Drawer from "./Drawer.js"
 import MenuItem from '@material-ui/core/MenuItem';
 import {Filter} from "./Filter";
 import uuid from 'react-uuid';
+import axios from 'axios';
 
 const styleCenter = {
   textAlign: "center"
@@ -101,15 +102,16 @@ export class TodoApp extends React.Component {
                   selected={this.state.dueDate}
                   onChange={this.handleDate} />
                 <p></p>
-                <Button variant="contained" color="primary" type="submit">
+                <Button variant="contained" color="primary" type="button" onClick={this.handleSubmit}>
                   Agregar #{this.state.items.length + 1}
                 </Button>
                 <Filter/>
               </center>
             </form>
           </Card>
-
+         
           <TodoList items={this.state.items} />
+          
 
           <br className="fix" />
         </div>
@@ -138,7 +140,7 @@ export class TodoApp extends React.Component {
   }
 
   handleSubmit(e) {
-    e.preventDefault();
+    //e.preventDefault();
     if (!this.state.text.length) {
       return;
     }
@@ -151,14 +153,10 @@ export class TodoApp extends React.Component {
 
     };
     console.log(newItem);
-   fetch('http://localhost:8080/Task',{
-     method:'POST',
-     body: JSON.stringify(newItem),
-     headers:{
-      'Content-Type': 'application/json'
-     }
-   }) 
-   this.updateList();
+   axios.post('http://localhost:8080/Task',newItem).then(res=>{
+    this.updateList();
+   });
+   
   }
 }
 

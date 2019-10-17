@@ -149,7 +149,7 @@ export class Filter extends React.Component {
             if(this.state.dueDate!==''){
                 let temp=[];
                 for(const task of tasksList){
-                    if(new Date(task.dueDate) > new Date(this.state.dueDate)){
+                    if(new Date(task.dueDate) < new Date(this.state.dueDate)){
                         temp.push(task);
                     }
                 }
