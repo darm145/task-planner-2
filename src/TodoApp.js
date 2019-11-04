@@ -9,7 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./TodoApp.css"
 import Drawer from "./Drawer.js"
 import MenuItem from '@material-ui/core/MenuItem';
-import {Filter} from "./Filter";
+import { Filter } from "./Filter";
 import uuid from 'react-uuid';
 import axios from 'axios';
 
@@ -21,40 +21,43 @@ export class TodoApp extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { items: [], text: '', status: '', dueDate: new Date() };
+    this.state = { items: [], text: '', status: '', dueDate: new Date(), file: "" };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDate = this.handleDate.bind(this);
     this.handleStatus = this.handleStatus.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.updateList=this.updateList.bind(this);
   }
-  updateList(){
+  updateList() {
     fetch('http://localhost:8080/Task')
-        .then(response => response.json())
-        .then(data => {
-            let tasksList = [];
-            data.forEach(function (task) {
-                tasksList.push({
-                   id:task.id,
-                   text:task.activity,
-                   status:task.state,
-                   dueDate:task.date,
-                   owner:task.owner
-                })
+      .then(response => response.json())
+      .then(data => {
+        let tasksList = [];
+        data.forEach(function (task) {
+          tasksList.push({
+            id: task.id,
+            text: task.activity,
+            status: task.state,
+            dueDate: task.date,
+            owner: task.owner,
+            imageId: task.imageId
+          })
 
-            });
-            console.log(data);
-            
-            this.setState({items: tasksList});
         });
+        console.log(data);
+
+        this.setState({ items: tasksList });
+      });
   }
   componentDidMount() {
     this.updateList();
-}
+  }
 
   render() {
 
     if (!JSON.parse(localStorage.getItem("isLoggedIn"))) {
-      
+
       window.location.replace("/login");
     }
 
@@ -102,16 +105,18 @@ export class TodoApp extends React.Component {
                   selected={this.state.dueDate}
                   onChange={this.handleDate} />
                 <p></p>
+                <input type="file" id="file" onChange={this.handleInputChange} />
+                <p></p>
                 <Button variant="contained" color="primary" type="button" onClick={this.handleSubmit}>
                   Agregar #{this.state.items.length + 1}
                 </Button>
-                <Filter/>
+                <Filter />
               </center>
             </form>
           </Card>
-         
+
           <TodoList items={this.state.items} />
-          
+
 
           <br className="fix" />
         </div>
@@ -123,7 +128,12 @@ export class TodoApp extends React.Component {
     );
   }
 
-
+  handleInputChange(e) {
+    this.setState({
+      file: e.target.files[0]
+    });
+    console.log(this.state);
+  }
   handleChange(e) {
 
     this.setState({ text: document.getElementById("text-todo").value });
@@ -144,19 +154,27 @@ export class TodoApp extends React.Component {
     if (!this.state.text.length) {
       return;
     }
+    const imgId = uuid();
+    let data = new FormData();
+    data.append('file', this.state.file);
+
     const newItem = {
       id: uuid(),
       activity: this.state.text,
       state: this.state.status,
       date: this.state.dueDate,
-      owner:{email:localStorage.getItem("mailLogged")}
-
+      owner: { email: localStorage.getItem("mailLogged") },
+      imageId: imgId
     };
     console.log(newItem);
-   axios.post('http://localhost:8080/Task',newItem).then(res=>{
-    this.updateList();
-   });
-   
+    axios.post('http://localhost:8080/Image/' + imgId, data).then(function (response) {
+      console.log("a");
+    }).catch(function (error) {
+      console.log("error en la tarea");
+    });
+    axios.post('http://localhost:8080/Task', newItem).then(res => {
+        this.updateList();
+      });
   }
 }
 
